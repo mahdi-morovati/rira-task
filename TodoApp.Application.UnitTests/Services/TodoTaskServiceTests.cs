@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Shouldly;
 using TodoApp.Application.Contracts.Logging;
@@ -172,5 +173,60 @@ public class TodoTaskServiceTests
                 la.Title == updateDto.Title &&
                 la.Description == updateDto.Description
             )), Times.Once);
+    }
+
+    [Fact]
+    public async Task UpdateTask_ShouldThrowBadRequest_WhenTaskDoesNotExists()
+    {
+        // Arrange
+        var updateDto = new UpdateTodoTaskDto
+        {
+            Id = new Guid("d222f030-8b0d-4e18-b70d-7f09bba030b3"),
+            Title = "Updt",
+            Description = "Updt Desc"
+        };
+
+        // Act
+        // Assert
+        var exception = await Should.ThrowAsync<BadRequestException>(()
+            => _service.UpdateTaskAsync(updateDto));
+        exception.Message.ShouldBe("Invalid TodoTask");
+    }
+
+    [Fact]
+    public async Task UpdateTask_ShouldReturnBadRequest_WhenInputIsInvqalid()
+    {
+        // Arrange
+        var updateDto = new UpdateTodoTaskDto
+        {
+            Id = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab"),
+            Title = "",
+            Description = "Updt Desc"
+        };
+
+        // Act
+        // Assert
+        var exception = await Should.ThrowAsync<BadRequestException>(()
+            => _service.UpdateTaskAsync(updateDto));
+        exception.Message.ShouldBe("Invalid TodoTask");
+    }
+
+    [Fact]
+    public async Task UpdateTask_ShouldThrowException_WhenUpdateFails()
+    {
+        // Arrange
+        var updateDto = new UpdateTodoTaskDto
+        {
+            Id = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab"),
+            Title = "Updt",
+            Description = "Updt Desc"
+        };
+        
+        _mockRepo.Setup(r => r.UpdateAsync(It.IsAny<TodoTask>())).ThrowsAsync(new Exception("Update failed"));
+        
+        // Act
+        // Assert
+        await Assert.ThrowsAsync<Exception>(() => _service.UpdateTaskAsync(updateDto));
+
     }
 }
