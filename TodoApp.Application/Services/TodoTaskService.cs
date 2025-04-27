@@ -21,4 +21,9 @@ public class TodoTaskService
     {
         return await _repository.GetByIdAsync(id);
     }
+
+    public async Task CreateTaskAsync(TodoTask todoTask)
+    {
+        await _repository.AddAsync(todoTask);
+    }
 }

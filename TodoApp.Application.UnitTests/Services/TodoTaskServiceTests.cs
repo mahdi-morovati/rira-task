@@ -60,4 +60,23 @@ public class TodoTaskServiceTests
         // Assert
         result.ShouldBeNull();
     }
+
+    [Fact]
+    public async Task CreateTask_ShouldAddTaskSuccessfully()
+    {
+        // Arrange
+        var newTask = new TodoTask
+        {
+            Id = Guid.NewGuid(),
+            Title = "new task",
+            Description = "new task desc"
+        };
+        
+        // Act
+        await _service.CreateTaskAsync(newTask);
+
+        // Assert
+        _mockRepo.Verify(r => r.AddAsync(newTask), Times.Once);
+        
+    }
 }
