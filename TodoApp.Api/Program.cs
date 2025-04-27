@@ -1,3 +1,4 @@
+using TodoApp.Api.Middlewares;
 using TodoApp.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 
 
