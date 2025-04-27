@@ -1,5 +1,6 @@
 using Serilog;
 using TodoApp.Api.Middlewares;
+using TodoApp.Infrastructure;
 using TodoApp.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Host.UseSerilog((context, loggerConfig) => loggerConfig
     .WriteTo.Console()
     .ReadFrom.Configuration(context.Configuration));
 
+builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddPersistenceServices(builder.Configuration);
 
 var app = builder.Build();

@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Repositories\" />
+      <ProjectReference Include="..\TodoApp.Application\TodoApp.Application.csproj" />
     </ItemGroup>
 
 </Project>

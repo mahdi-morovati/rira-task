@@ -23,6 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\TodoApp.Infrastructure\TodoApp.Infrastructure.csproj" />
       <ProjectReference Include="..\TodoApp.Persistence\TodoApp.Persistence.csproj" />
     </ItemGroup>
 

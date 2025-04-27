@@ -1,7 +1,10 @@
 ﻿using FluentAssertions;
+using FluentValidation;
 using Moq;
 using Shouldly;
+using TodoApp.Application.Contracts.Logging;
 using TodoApp.Application.Contracts.Persistence;
+using TodoApp.Application.Exceptions;
 using TodoApp.Application.Services;
 using TodoApp.Application.UnitTests.Mocks;
 using TodoApp.Domain.Entities;
@@ -12,11 +15,13 @@ public class TodoTaskServiceTests
 {
     private readonly Mock<ITodoTaskRepository> _mockRepo;
     private readonly TodoTaskService _service;
+    private readonly Mock<IAppLogger<TodoTaskService>> _mockLogger;
 
     public TodoTaskServiceTests()
     {
+        _mockLogger = new Mock<IAppLogger<TodoTaskService>>();
         _mockRepo = MockTodoTaskRepository.GetMockTodoTaskRepository();
-        _service = new TodoTaskService(_mockRepo.Object);
+        _service = new TodoTaskService(_mockRepo.Object, _mockLogger.Object);
     }
 
     [Fact]
@@ -77,6 +82,33 @@ public class TodoTaskServiceTests
 
         // Assert
         _mockRepo.Verify(r => r.AddAsync(newTask), Times.Once);
-        
     }
+
+    [Theory]
+    [InlineData("", "Title is required")]
+    [InlineData("bnsdfdfgdfgfddfsdfsdfsdfsdfsdf", "Title must be fewer than 20 characters")]
+    public async Task CreatTask_ShouldThrowValidationException_WhenTitleOrDescriptionIsInvalid(string title,
+        string errorMessage)
+    {
+        // Arrange
+        var newTask = new TodoTask
+        {
+            Title = title,
+            Description = "test description"
+        };
+
+        var todoTaskService = new TodoTaskService(_mockRepo.Object, _mockLogger.Object);
+        
+        // Act
+        var exception = await Should.ThrowAsync<BadRequestException>(() => todoTaskService.CreateTaskAsync(newTask));
+
+
+        // Assert
+        exception.Message.ShouldBe("Invalid TodoTask");
+        exception.ValidationErrors.ShouldContainKey("Title");
+        exception.ValidationErrors["Title"].ShouldContain(errorMessage);
+        
+        _mockRepo.Verify(repo => repo.AddAsync(It.IsAny<TodoTask>()), Times.Never);
+    }
+    
 }
