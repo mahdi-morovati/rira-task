@@ -13,12 +13,6 @@
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d49976d5_002D3d37_002D4c64_002D9030_002D05e3b1d7dafb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UpdateTask_ShouldUpdateTask_WhenTaskExists" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests.UpdateTask_ShouldUpdateTask_WhenTaskExists&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests.updateTask_ShouldThrowBadRequest_WhenTaskDoesNotExists&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests.UpdateTask_ShouldReturnBadRequest_WhenInputIsInvqalid&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests.UpdateTask_ShouldThrowException_WhenUpdateFails&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests.DeleteTask_ShouldDeleteTask_WhenTaskExists&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests.DeleteTask_ShouldThrowBadRequest_WhenTaskDoesNotExist&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests.DeleteTask_ShouldThrowException_WhenDatabaseErrorOccurs&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
