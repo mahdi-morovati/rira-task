@@ -32,4 +32,32 @@ public class TodoTaskServiceTests
         result.First().Title.Should().Be("task 1");
 
     }
+
+    [Fact]
+    public async Task GetTaskById_ShouldReturnTask_WhenTaskExists()
+    {
+        // Arrange
+        var existingTaskId = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab");
+
+        // Act
+        var result = await _service.GetTaskByIdAsync(existingTaskId);
+
+        // Assert
+        result.Should().NotBeNull();  
+        result.ShouldBeOfType<TodoTask>();  
+        result.Id.ShouldBe(existingTaskId); 
+    }
+
+    [Fact]
+    public async Task GetTaskById_ShouldReturnNull_WhenTaskDoesNotExist()
+    {
+        // Arrange
+        var notExistingTaskId = Guid.Empty;
+
+        // Act
+        var result = await _service.GetTaskByIdAsync(notExistingTaskId);
+
+        // Assert
+        result.ShouldBeNull();
+    }
 }

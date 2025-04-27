@@ -29,7 +29,7 @@ public class MockTodoTaskRepository
         mockRepo.Setup(r => r.GetAllAsync()).ReturnsAsync(todoTasks);
         
         mockRepo.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
-            .ReturnsAsync((int id) => todoTasks.FirstOrDefault(lt => Equals(lt.Id, id)));
+            .ReturnsAsync((Guid id) => todoTasks.FirstOrDefault(lt => Equals(lt.Id, id)));
 
 
         return mockRepo;

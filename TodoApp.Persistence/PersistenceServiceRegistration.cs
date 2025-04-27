@@ -7,7 +7,7 @@ using TodoApp.Persistence.Repositories;
 
 namespace TodoApp.Persistence;
 
-public static class PersistenceServiceRegistration
+public static class TodoTaskRepository
 {
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services,
         IConfiguration configuration)
