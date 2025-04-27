@@ -229,4 +229,45 @@ public class TodoTaskServiceTests
         await Assert.ThrowsAsync<Exception>(() => _service.UpdateTaskAsync(updateDto));
 
     }
+    
+    [Fact]
+    public async Task DeleteTask_ShouldDeleteTask_WhenTaskExists()
+    {
+        // Arrange
+        var existingTaskId = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab");
+
+        // Act
+        await _service.DeleteTaskAsync(existingTaskId);
+
+        // Assert
+        _mockRepo.Verify(r => r.DeleteAsync(It.Is<TodoTask>(t => t.Id == existingTaskId)), Times.Once);
+    }
+
+    
+    [Fact]
+    public async Task DeleteTask_ShouldThrowBadRequest_WhenTaskDoesNotExist()
+    {
+        // Arrange
+        var nonExistentTaskId = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab");
+        
+        _mockRepo.Setup(r => r.GetByIdAsync(nonExistentTaskId)).ReturnsAsync((TodoTask)null);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<BadRequestException>(() => _service.DeleteTaskAsync(nonExistentTaskId));
+    }
+
+    [Fact]
+    public async Task DeleteTask_ShouldThrowException_WhenDatabaseErrorOccurs()
+    {
+        // Arrange
+        var existingTaskId = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab");
+        
+        _mockRepo.Setup(r => r.DeleteAsync(It.IsAny<TodoTask>())).ThrowsAsync(new Exception("Database Error"));
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<Exception>(() => _service.DeleteTaskAsync(existingTaskId));
+        Assert.Equal("Database Error", exception.Message);
+    }
+    
+    
 }

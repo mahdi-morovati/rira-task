@@ -78,4 +78,17 @@ public class TodoTaskService
 
         return todoTaskDto;
     }
+    
+    public async Task DeleteTaskAsync(Guid id)
+    {
+        var task = await _repository.GetByIdAsync(id);
+    
+        if (task == null)
+        {
+            throw new BadRequestException("TodoTask not found");
+        }
+
+        await _repository.DeleteAsync(task);
+    }
+
 }
