@@ -1,6 +1,6 @@
 ﻿namespace TodoApp.Domain.Entities;
 
-public class Task
+public class TodoTask
 {
     public Guid Id { get; set; }
     public string Title { get; set; }
