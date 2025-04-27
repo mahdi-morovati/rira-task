@@ -145,4 +145,32 @@ public class TodoTaskServiceTests
 
         _mockRepo.Verify(repo => repo.AddAsync(It.IsAny<TodoTask>()), Times.Never);
     }
+
+    [Fact]
+    public async Task UpdateTask_ShouldUpdateTask_WhenTaskExists()
+    {
+        // Arrange
+        var updateDto = new UpdateTodoTaskDto
+        {
+            Id = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab"),
+            Title = "Updt",
+            Description = "Updt Desc"
+        };
+
+        // Act
+        var result = await _service.UpdateTaskAsync(updateDto);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<TodoTaskDto>();
+        result.Title.ShouldBe(updateDto.Title);
+        result.Description.ShouldBe(updateDto.Description);
+        
+        _mockRepo.Verify(r =>
+            r.UpdateAsync(It.Is<TodoTask>(la =>
+                la.Id == updateDto.Id &&
+                la.Title == updateDto.Title &&
+                la.Description == updateDto.Description
+            )), Times.Once);
+    }
 }

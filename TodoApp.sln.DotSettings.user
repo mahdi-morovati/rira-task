@@ -1,7 +1,18 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ATask_002Ecs_002Fl_003AC_0021_003FUsers_003Fm_002Emorovati_002EMOROVATI_002DPC_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F5aeb6167299d4cfba30c86624130edbcc90938_003F22_003F7c97a050_003FTask_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0f8a1f17_002Df930_002D4f4f_002D9cfa_002D2bfed89661cb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetAllTasks_ShouldReturnListOfTasks" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0f8a1f17_002Df930_002D4f4f_002D9cfa_002D2bfed89661cb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetAllTasks_ShouldReturnListOfTasks" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9c560b49_002De6af_002D465f_002Db5ba_002Dbcc8bc4bd334/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetTaskById_ShouldReturnTask_WhenTaskExists" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests.GetTaskById_ShouldReturnTask_WhenTaskExists&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests.GetAllTasks_ShouldReturnListOfTasks&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d49976d5_002D3d37_002D4c64_002D9030_002D05e3b1d7dafb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UpdateTask_ShouldUpdateTask_WhenTaskExists" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::6813120E-F583-4233-AE8A-69DBF7B1693E::net8.0::TodoApp.Application.UnitTests.Services.TodoTaskServiceTests.UpdateTask_ShouldUpdateTask_WhenTaskExists&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

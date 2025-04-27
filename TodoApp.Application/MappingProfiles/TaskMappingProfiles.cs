@@ -10,5 +10,6 @@ public class TaskMappingProfiles : Profile
     {
         CreateMap<TodoTask, TodoTaskDto>().ReverseMap();
         CreateMap<CreateTodoTaskDto, TodoTask>();
+        CreateMap<UpdateTodoTaskDto, TodoTask>();
     }
 }
