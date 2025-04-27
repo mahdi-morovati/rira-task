@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentAssertions;
-using FluentValidation;
 using Moq;
 using Shouldly;
 using TodoApp.Application.Contracts.Logging;
@@ -21,7 +20,6 @@ public class TodoTaskServiceTests
     private readonly Mock<IAppLogger<TodoTaskService>> _mockLogger;
     private readonly IMapper _mapper;
 
-
     public TodoTaskServiceTests()
     {
         _mockLogger = new Mock<IAppLogger<TodoTaskService>>();
@@ -36,7 +34,6 @@ public class TodoTaskServiceTests
         _service = new TodoTaskService(_mockRepo.Object, _mockLogger.Object, _mapper);
     }
 
-
     [Fact]
     public async Task GetAllTasks_ShouldReturnListOfTasks()
     {
@@ -48,7 +45,6 @@ public class TodoTaskServiceTests
         result.Should().BeAssignableTo<IReadOnlyCollection<TodoTaskDto>>();
         result.Should().HaveCount(2);
         result.First().Title.Should().Be("task 1");
-
     }
 
     [Fact]
@@ -62,7 +58,7 @@ public class TodoTaskServiceTests
 
         // Assert
         result.Should().NotBeNull();  
-        result.ShouldBeOfType<TodoTaskDto>();  
+        result.Should().BeOfType<TodoTaskDto>();  // اصلاح: باید از نوع DTO باشد
         result.Id.ShouldBe(existingTaskId); 
     }
 
@@ -90,14 +86,18 @@ public class TodoTaskServiceTests
         };
         
         // Act
-        await _service.CreateTaskAsync(newTask);
+        var result = await _service.CreateTaskAsync(newTask);
 
         // Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<TodoTaskDto>();
+        result.Title.ShouldBe(newTask.Title);
+        result.Description.ShouldBe(newTask.Description);
+
         _mockRepo.Verify(r => r.AddAsync(It.Is<TodoTask>(t =>
             t.Title == newTask.Title &&
             t.Description == newTask.Description
         )), Times.Once);
-
     }
 
     [Theory]
@@ -145,5 +145,4 @@ public class TodoTaskServiceTests
 
         _mockRepo.Verify(repo => repo.AddAsync(It.IsAny<TodoTask>()), Times.Never);
     }
-    
 }

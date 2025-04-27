@@ -33,7 +33,7 @@ public class TodoTaskService
         return _mapper.Map<TodoTaskDto>(task);
     }
 
-    public async Task CreateTaskAsync(CreateTodoTaskDto createDto)
+    public async Task<TodoTaskDto> CreateTaskAsync(CreateTodoTaskDto createDto)
     {
         //validate incoming data
         var validator = new CreateTodoTaskDtoValidator();
@@ -48,6 +48,11 @@ public class TodoTaskService
         var todoTask = _mapper.Map<TodoTask>(createDto);
         
         await _repository.AddAsync(todoTask);
+        
+        var todoTaskDto = _mapper.Map<TodoTaskDto>(todoTask);
+    
+        // بازگشت خروجی به صورت DTO
+        return todoTaskDto;
     }
     
 }
