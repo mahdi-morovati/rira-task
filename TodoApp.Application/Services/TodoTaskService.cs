@@ -21,14 +21,16 @@ public class TodoTaskService
         _mapper = mapper;
     }
 
-    public async Task<IReadOnlyCollection<TodoTask>> GetAllTasksAsync()
+    public async Task<IReadOnlyCollection<TodoTaskDto>> GetAllTasksAsync()
     {
-        return await _repository.GetAllAsync();
+        var tasks = await _repository.GetAllAsync();
+        return _mapper.Map<IReadOnlyCollection<TodoTaskDto>>(tasks); 
     }
 
-    public async Task<TodoTask?> GetTaskByIdAsync(Guid id)
+    public async Task<TodoTaskDto?> GetTaskByIdAsync(Guid id)
     {
-        return await _repository.GetByIdAsync(id);
+        var task = await _repository.GetByIdAsync(id);
+        return _mapper.Map<TodoTaskDto>(task);
     }
 
     public async Task CreateTaskAsync(CreateTodoTaskDto createDto)

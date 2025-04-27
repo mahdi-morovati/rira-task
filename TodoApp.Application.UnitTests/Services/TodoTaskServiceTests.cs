@@ -45,7 +45,7 @@ public class TodoTaskServiceTests
         
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeAssignableTo<IReadOnlyCollection<TodoTask>>();
+        result.Should().BeAssignableTo<IReadOnlyCollection<TodoTaskDto>>();
         result.Should().HaveCount(2);
         result.First().Title.Should().Be("task 1");
 
@@ -62,7 +62,7 @@ public class TodoTaskServiceTests
 
         // Assert
         result.Should().NotBeNull();  
-        result.ShouldBeOfType<TodoTask>();  
+        result.ShouldBeOfType<TodoTaskDto>();  
         result.Id.ShouldBe(existingTaskId); 
     }
 
@@ -88,8 +88,6 @@ public class TodoTaskServiceTests
             Title = "task",
             Description = "task desc"
         };
-        // convert to domain entity object
-        var todoTask = _mapper.Map<TodoTask>(newTask);
         
         // Act
         await _service.CreateTaskAsync(newTask);
