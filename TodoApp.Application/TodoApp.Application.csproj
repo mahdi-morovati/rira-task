@@ -8,8 +8,11 @@
 
     <ItemGroup>
       <Folder Include="DTOs\" />
-      <Folder Include="Interfaces\" />
       <Folder Include="Services\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TodoApp.Domain\TodoApp.Domain.csproj" />
     </ItemGroup>
 
 </Project>
