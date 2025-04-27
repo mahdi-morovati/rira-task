@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\" />
+      <ProjectReference Include="..\TodoApp.Application\TodoApp.Application.csproj" />
     </ItemGroup>
 
 </Project>

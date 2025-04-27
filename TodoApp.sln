@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.Infrastructure", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.Persistence", "TodoApp.Persistence\TodoApp.Persistence.csproj", "{559CEC15-C954-4B5E-A377-A6931BF4D9BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.Tests", "TodoApp.Tests\TodoApp.Tests.csproj", "{6813120E-F583-4233-AE8A-69DBF7B1693E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.Application.UnitTests", "TodoApp.Application.UnitTests\TodoApp.Application.UnitTests.csproj", "{6813120E-F583-4233-AE8A-69DBF7B1693E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0671A2C9-EE7F-498F-BBE1-24E4FA3E3C1B}"
 EndProject
