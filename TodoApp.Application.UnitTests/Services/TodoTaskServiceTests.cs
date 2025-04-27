@@ -151,15 +151,15 @@ public class TodoTaskServiceTests
     public async Task UpdateTask_ShouldUpdateTask_WhenTaskExists()
     {
         // Arrange
+        var id = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab");
         var updateDto = new UpdateTodoTaskDto
         {
-            Id = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab"),
             Title = "Updt",
             Description = "Updt Desc"
         };
 
         // Act
-        var result = await _service.UpdateTaskAsync(updateDto);
+        var result = await _service.UpdateTaskAsync(id, updateDto);
 
         // Assert
         result.Should().NotBeNull();
@@ -169,7 +169,7 @@ public class TodoTaskServiceTests
         
         _mockRepo.Verify(r =>
             r.UpdateAsync(It.Is<TodoTask>(la =>
-                la.Id == updateDto.Id &&
+                la.Id == id &&
                 la.Title == updateDto.Title &&
                 la.Description == updateDto.Description
             )), Times.Once);
@@ -179,9 +179,9 @@ public class TodoTaskServiceTests
     public async Task UpdateTask_ShouldThrowBadRequest_WhenTaskDoesNotExists()
     {
         // Arrange
+        var id = new Guid("d222f030-8b0d-4e18-b70d-7f09bba030b3");
         var updateDto = new UpdateTodoTaskDto
         {
-            Id = new Guid("d222f030-8b0d-4e18-b70d-7f09bba030b3"),
             Title = "Updt",
             Description = "Updt Desc"
         };
@@ -189,17 +189,17 @@ public class TodoTaskServiceTests
         // Act
         // Assert
         var exception = await Should.ThrowAsync<BadRequestException>(()
-            => _service.UpdateTaskAsync(updateDto));
-        exception.Message.ShouldBe("Invalid TodoTask");
+            => _service.UpdateTaskAsync(id, updateDto));
+        exception.Message.ShouldBe("TodoTask not found");
     }
 
     [Fact]
     public async Task UpdateTask_ShouldReturnBadRequest_WhenInputIsInvqalid()
     {
         // Arrange
+        var id = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab");
         var updateDto = new UpdateTodoTaskDto
         {
-            Id = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab"),
             Title = "",
             Description = "Updt Desc"
         };
@@ -207,7 +207,7 @@ public class TodoTaskServiceTests
         // Act
         // Assert
         var exception = await Should.ThrowAsync<BadRequestException>(()
-            => _service.UpdateTaskAsync(updateDto));
+            => _service.UpdateTaskAsync(id, updateDto));
         exception.Message.ShouldBe("Invalid TodoTask");
     }
 
@@ -215,9 +215,9 @@ public class TodoTaskServiceTests
     public async Task UpdateTask_ShouldThrowException_WhenUpdateFails()
     {
         // Arrange
+        var id = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab");
         var updateDto = new UpdateTodoTaskDto
         {
-            Id = new Guid("c068b3f8-46d6-41e0-a519-18b40d7f7fab"),
             Title = "Updt",
             Description = "Updt Desc"
         };
@@ -226,7 +226,7 @@ public class TodoTaskServiceTests
         
         // Act
         // Assert
-        await Assert.ThrowsAsync<Exception>(() => _service.UpdateTaskAsync(updateDto));
+        await Assert.ThrowsAsync<Exception>(() => _service.UpdateTaskAsync(id, updateDto));
 
     }
     

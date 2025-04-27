@@ -40,10 +40,7 @@ public class TodoTasksController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<TodoTaskDto>> Update(Guid id, [FromBody] UpdateTodoTaskDto dto)
     {
-        if (id != dto.Id)
-            return BadRequest();
-
-        var updatedTask = await _service.UpdateTaskAsync(dto);
+        var updatedTask = await _service.UpdateTaskAsync(id, dto);
         return Ok(updatedTask);
     }
 

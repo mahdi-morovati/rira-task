@@ -54,22 +54,26 @@ public class TodoTaskService
         return todoTaskDto;
     }
 
-    public async Task<TodoTaskDto> UpdateTaskAsync(UpdateTodoTaskDto request)
+    public async Task<TodoTaskDto> UpdateTaskAsync(Guid id, UpdateTodoTaskDto request)
     {
-        var validator = new UpdateTodoTaskDtoValidator(_repository);
+        var validator = new UpdateTodoTaskDtoValidator();
         var validationResult = await validator.ValidateAsync(request);
         
-        // var task = await _repository.GetByIdAsync(id);
-
+        var task = await _repository.GetByIdAsync(id);
+        if (task == null)
+        {
+            throw new BadRequestException("TodoTask not found");
+        }
+        
         if (!validationResult.IsValid)
         {
-            _logger.LogWarning("Validation errors in update request for {0} - {1}", nameof(TodoTask), request.Id); 
+            _logger.LogWarning("Validation errors in update request for {0} - {1}", nameof(TodoTask), id); 
             throw new BadRequestException("Invalid TodoTask", validationResult);
         }
         
         
         // convert to domain entity object
-        var task = _mapper.Map<TodoTask>(request);
+        _mapper.Map(request, task);
 
         // add to database
         await _repository.UpdateAsync(task);
