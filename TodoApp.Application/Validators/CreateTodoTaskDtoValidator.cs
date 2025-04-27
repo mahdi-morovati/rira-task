@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
+using TodoApp.Application.DTOs;
 using TodoApp.Domain.Entities;
 
 namespace TodoApp.Application.Validators;
 
-public class TodoTaskValidator: AbstractValidator<TodoTask>
+public class CreateTodoTaskDtoValidator: AbstractValidator<CreateTodoTaskDto>
 {
-    public TodoTaskValidator()
+    public CreateTodoTaskDtoValidator()
     {
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage("{PropertyName} is required")

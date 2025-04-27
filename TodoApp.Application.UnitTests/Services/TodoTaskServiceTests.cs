@@ -1,10 +1,13 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using FluentValidation;
 using Moq;
 using Shouldly;
 using TodoApp.Application.Contracts.Logging;
 using TodoApp.Application.Contracts.Persistence;
+using TodoApp.Application.DTOs;
 using TodoApp.Application.Exceptions;
+using TodoApp.Application.MappingProfiles;
 using TodoApp.Application.Services;
 using TodoApp.Application.UnitTests.Mocks;
 using TodoApp.Domain.Entities;
@@ -16,13 +19,23 @@ public class TodoTaskServiceTests
     private readonly Mock<ITodoTaskRepository> _mockRepo;
     private readonly TodoTaskService _service;
     private readonly Mock<IAppLogger<TodoTaskService>> _mockLogger;
+    private readonly IMapper _mapper;
+
 
     public TodoTaskServiceTests()
     {
         _mockLogger = new Mock<IAppLogger<TodoTaskService>>();
         _mockRepo = MockTodoTaskRepository.GetMockTodoTaskRepository();
-        _service = new TodoTaskService(_mockRepo.Object, _mockLogger.Object);
+
+        var mapperConfig = new MapperConfiguration(c =>
+        {
+            c.AddProfile<TaskMappingProfiles>();
+        });
+        _mapper = mapperConfig.CreateMapper();
+    
+        _service = new TodoTaskService(_mockRepo.Object, _mockLogger.Object, _mapper);
     }
+
 
     [Fact]
     public async Task GetAllTasks_ShouldReturnListOfTasks()
@@ -70,71 +83,68 @@ public class TodoTaskServiceTests
     public async Task CreateTask_ShouldAddTaskSuccessfully()
     {
         // Arrange
-        var newTask = new TodoTask
+        var newTask = new CreateTodoTaskDto
         {
-            Id = Guid.NewGuid(),
             Title = "task",
             Description = "task desc"
         };
+        // convert to domain entity object
+        var todoTask = _mapper.Map<TodoTask>(newTask);
         
         // Act
         await _service.CreateTaskAsync(newTask);
 
         // Assert
-        _mockRepo.Verify(r => r.AddAsync(newTask), Times.Once);
+        _mockRepo.Verify(r => r.AddAsync(It.Is<TodoTask>(t =>
+            t.Title == newTask.Title &&
+            t.Description == newTask.Description
+        )), Times.Once);
+
     }
 
     [Theory]
     [InlineData("", "Title is required")]
     [InlineData("bnsdfdfgdf", "Title must be fewer than 5 characters")]
-    public async Task CreatTask_ShouldThrowValidationException_WhenTitleIsInvalid(string title,
-        string errorMessage)
+    public async Task CreateTask_ShouldThrowValidationException_WhenTitleIsInvalid(string title, string errorMessage)
     {
         // Arrange
-        var newTask = new TodoTask
+        var newTaskDto = new CreateTodoTaskDto
         {
             Title = title,
             Description = "test description"
         };
 
-        var todoTaskService = new TodoTaskService(_mockRepo.Object, _mockLogger.Object);
-        
         // Act
-        var exception = await Should.ThrowAsync<BadRequestException>(() => todoTaskService.CreateTaskAsync(newTask));
-
+        var exception = await Should.ThrowAsync<BadRequestException>(() => _service.CreateTaskAsync(newTaskDto));
 
         // Assert
         exception.Message.ShouldBe("Invalid TodoTask");
         exception.ValidationErrors.ShouldContainKey("Title");
         exception.ValidationErrors["Title"].ShouldContain(errorMessage);
-        
+
         _mockRepo.Verify(repo => repo.AddAsync(It.IsAny<TodoTask>()), Times.Never);
     }
-    
+
     [Theory]
     [InlineData("", "Description is required")]
     [InlineData("bnsdfdfgdfgfddfsadsdasddf", "Description must be fewer than 10 characters")]
-    public async Task CreatTask_ShouldThrowValidationException_WhenDescriptionIsInvalid(string description,
-        string errorMessage)
+    public async Task CreateTask_ShouldThrowValidationException_WhenDescriptionIsInvalid(string description, string errorMessage)
     {
         // Arrange
-        var newTask = new TodoTask
+        var newTaskDto = new CreateTodoTaskDto
         {
             Title = "title",
             Description = description
         };
 
-        var todoTaskService = new TodoTaskService(_mockRepo.Object, _mockLogger.Object);
-        
         // Act
-        var exception = await Should.ThrowAsync<BadRequestException>(() => todoTaskService.CreateTaskAsync(newTask));
-
+        var exception = await Should.ThrowAsync<BadRequestException>(() => _service.CreateTaskAsync(newTaskDto));
 
         // Assert
         exception.Message.ShouldBe("Invalid TodoTask");
         exception.ValidationErrors.ShouldContainKey("Description");
         exception.ValidationErrors["Description"].ShouldContain(errorMessage);
-        
+
         _mockRepo.Verify(repo => repo.AddAsync(It.IsAny<TodoTask>()), Times.Never);
     }
     

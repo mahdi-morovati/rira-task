@@ -7,14 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="DTOs\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\TodoApp.Domain\TodoApp.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="14.0.0" />
       <PackageReference Include="FluentValidation" Version="11.5.1" />
     </ItemGroup>
 
