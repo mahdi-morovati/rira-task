@@ -73,8 +73,8 @@ public class TodoTaskServiceTests
         var newTask = new TodoTask
         {
             Id = Guid.NewGuid(),
-            Title = "new task",
-            Description = "new task desc"
+            Title = "task",
+            Description = "task desc"
         };
         
         // Act
@@ -86,8 +86,8 @@ public class TodoTaskServiceTests
 
     [Theory]
     [InlineData("", "Title is required")]
-    [InlineData("bnsdfdfgdfgfddfsdfsdfsdfsdfsdf", "Title must be fewer than 20 characters")]
-    public async Task CreatTask_ShouldThrowValidationException_WhenTitleOrDescriptionIsInvalid(string title,
+    [InlineData("bnsdfdfgdf", "Title must be fewer than 5 characters")]
+    public async Task CreatTask_ShouldThrowValidationException_WhenTitleIsInvalid(string title,
         string errorMessage)
     {
         // Arrange
@@ -107,6 +107,33 @@ public class TodoTaskServiceTests
         exception.Message.ShouldBe("Invalid TodoTask");
         exception.ValidationErrors.ShouldContainKey("Title");
         exception.ValidationErrors["Title"].ShouldContain(errorMessage);
+        
+        _mockRepo.Verify(repo => repo.AddAsync(It.IsAny<TodoTask>()), Times.Never);
+    }
+    
+    [Theory]
+    [InlineData("", "Description is required")]
+    [InlineData("bnsdfdfgdfgfddfsadsdasddf", "Description must be fewer than 10 characters")]
+    public async Task CreatTask_ShouldThrowValidationException_WhenDescriptionIsInvalid(string description,
+        string errorMessage)
+    {
+        // Arrange
+        var newTask = new TodoTask
+        {
+            Title = "title",
+            Description = description
+        };
+
+        var todoTaskService = new TodoTaskService(_mockRepo.Object, _mockLogger.Object);
+        
+        // Act
+        var exception = await Should.ThrowAsync<BadRequestException>(() => todoTaskService.CreateTaskAsync(newTask));
+
+
+        // Assert
+        exception.Message.ShouldBe("Invalid TodoTask");
+        exception.ValidationErrors.ShouldContainKey("Description");
+        exception.ValidationErrors["Description"].ShouldContain(errorMessage);
         
         _mockRepo.Verify(repo => repo.AddAsync(It.IsAny<TodoTask>()), Times.Never);
     }

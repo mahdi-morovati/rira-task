@@ -9,9 +9,9 @@ public class TodoTaskValidator: AbstractValidator<TodoTask>
     {
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage("{PropertyName} is required")
-            .MaximumLength(20).WithMessage("{PropertyName} must be fewer than 20 characters");
+            .MaximumLength(5).WithMessage("{PropertyName} must be fewer than 5 characters");
         RuleFor(x => x.Description)
             .NotEmpty().WithMessage("{PropertyName} is required")
-            .MaximumLength(1000).WithMessage("{PropertyName} must be fewer than 1000 characters");
+            .MaximumLength(10).WithMessage("{PropertyName} must be fewer than 10 characters");
     }
 }
