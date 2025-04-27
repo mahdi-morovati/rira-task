@@ -18,4 +18,8 @@
       <Folder Include="Middlewares\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TodoApp.Persistence\TodoApp.Persistence.csproj" />
+    </ItemGroup>
+
 </Project>
