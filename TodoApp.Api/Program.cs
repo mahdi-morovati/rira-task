@@ -1,5 +1,6 @@
 using Serilog;
 using TodoApp.Api.Middlewares;
+using TodoApp.Application.Services;
 using TodoApp.Infrastructure;
 using TodoApp.Persistence;
 
@@ -14,8 +15,13 @@ builder.Host.UseSerilog((context, loggerConfig) => loggerConfig
     .WriteTo.Console()
     .ReadFrom.Configuration(context.Configuration));
 
+builder.Services.AddScoped<TodoTaskService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddPersistenceServices(builder.Configuration);
+
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -31,6 +37,8 @@ app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionMiddleware>();
+
+app.MapControllers();
 
 
 

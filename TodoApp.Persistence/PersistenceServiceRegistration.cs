@@ -7,16 +7,18 @@ using TodoApp.Persistence.Repositories;
 
 namespace TodoApp.Persistence;
 
-public static class TodoTaskRepository
+public static class PersistenceServiceRegistration
 {
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services,
         IConfiguration configuration)
     {
         services.AddDbContext<TodoAppContext>(options =>
         {
-            options.UseSqlServer(configuration.GetConnectionString("TodoAppConnectionString"));
+            options.UseSqlServer(configuration.GetConnectionString("TodoAppConnectionString"),
+                sqlOptions => sqlOptions.EnableRetryOnFailure());
         });
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        services.AddScoped<ITodoTaskRepository, TodoTaskRepository>();
 
         return services;
     }
